@@ -3,6 +3,7 @@ package jp.co.axa.apidemo.services;
 import static org.junit.Assert.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -47,10 +48,11 @@ public class EmployeeServiceTest {
 		employeeService.saveEmployee(newEmployee);
 		
 		// 検索
-		Employee employee = employeeService.getEmployee(newEmployee.getId());
+		Optional<Employee> employee = employeeService.getEmployee(newEmployee.getId());
 		
-		assertNotSame("トランザクション外なのでインスタンスが別になるはず", newEmployee, employee);
-		assertEquals("登録した通りに検索できる", newEmployee, employee);
+		assertTrue("検索結果が取得できる", employee.isPresent());
+		assertNotSame("トランザクション外なのでインスタンスが別になるはず", newEmployee, employee.get());
+		assertEquals("登録した通りに検索できる", newEmployee, employee.get());
 	}
 
 //	@Test
@@ -79,10 +81,21 @@ public class EmployeeServiceTest {
 
 	}
 
+	/**
+	 * 削除のテスト
+	 */
 	@Test
 	public void testDeleteEmployee() {
+		// テストデータの登録
+		Employee employee1 = createTestEmployee1();
+		employeeService.saveEmployee(employee1);
 		
-		employeeService.deleteEmployee(1L);
+		// 削除
+		employeeService.deleteEmployee(employee1.getId());
+		
+		Optional<Employee> employee = employeeService.getEmployee(employee1.getId());
+		
+		assertFalse("削除されていることを確認", employee.isPresent());
 	}
 
 	@Test
