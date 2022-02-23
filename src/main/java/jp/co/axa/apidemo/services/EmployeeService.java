@@ -1,8 +1,8 @@
 package jp.co.axa.apidemo.services;
 
-import jp.co.axa.apidemo.entities.Employee;
-
 import java.util.List;
+
+import jp.co.axa.apidemo.entities.Employee;
 
 public interface EmployeeService {
 
@@ -15,4 +15,9 @@ public interface EmployeeService {
     public void deleteEmployee(Long employeeId);
 
     public void updateEmployee(Employee employee);
+    
+    /**
+     * すべての従業員を削除する
+     */
+    public void deleteAllEmployees();
 }
