@@ -98,10 +98,28 @@ public class EmployeeServiceTest {
 		assertFalse("削除されていることを確認", employee.isPresent());
 	}
 
+	/**
+	 * 更新のテスト
+	 */
 	@Test
 	public void testUpdateEmployee() {
-		Employee employee = new Employee();
-		employeeService.updateEmployee(employee);
+		// テストデータの登録
+		Employee employee1 = createTestEmployee1();
+		employeeService.saveEmployee(employee1);
+		Long targetId = employee1.getId();
+		
+		// 更新
+		employee1.setName("test3");
+		employee1.setDepartment("dep3");
+		employee1.setSalary(300);
+		
+		employeeService.updateEmployee(employee1);
+		
+		// 更新結果の取得
+		Optional<Employee> target = employeeService.getEmployee(targetId);
+		
+		assertTrue(target.isPresent());
+		assertEquals(employee1, target.get());
 	}
 
 	/**
