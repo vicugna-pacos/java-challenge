@@ -55,11 +55,6 @@ public class EmployeeServiceTest {
 		assertEquals("登録した通りに検索できる", newEmployee, employee.get());
 	}
 
-//	@Test
-//	public void testGetEmployeeEmpty() {
-//		Employee employee = employeeService.getEmployee(1L);
-//	}
-
 	/**
 	 * 全件検索のテスト
 	 */
