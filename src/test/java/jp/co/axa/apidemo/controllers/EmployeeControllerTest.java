@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,17 +38,36 @@ public class EmployeeControllerTest {
 	private EmployeeService employeeService;
 
 	private Employee testEmployee1;
+	private Employee testEmployee2;
+	private Employee testEmployee3;
 
 	@Before
 	public void before() {
 		employeeService.deleteAllEmployees();
 
+		// テストデータ1
 		testEmployee1 = new Employee();
 		testEmployee1.setName("test1");
 		testEmployee1.setDepartment("dep1");
 		testEmployee1.setSalary(100);
 
 		employeeService.saveEmployee(testEmployee1);
+
+		// テストデータ2
+		testEmployee2 = new Employee();
+		testEmployee2.setName("test2");
+		testEmployee2.setDepartment("dep2");
+		testEmployee2.setSalary(200);
+
+		employeeService.saveEmployee(testEmployee2);
+
+		// テストデータ3
+		testEmployee3 = new Employee();
+		testEmployee3.setName("test3");
+		testEmployee3.setDepartment("dep3");
+		testEmployee3.setSalary(300);
+
+		employeeService.saveEmployee(testEmployee3);
 	}
 
 	@Test
@@ -61,7 +83,16 @@ public class EmployeeControllerTest {
 	@Test
 	public void testGetEmployees() throws Exception {
 		String url = "/api/v1/employees";
-		mockMvc.perform(get(url)).andExpect(status().isOk());
+		
+		List<Employee> expectedList = new ArrayList<Employee>();
+		expectedList.add(testEmployee1);
+		expectedList.add(testEmployee2);
+		expectedList.add(testEmployee3);
+
+		ObjectMapper mapper = new ObjectMapper();
+		String expected = mapper.writeValueAsString(expectedList);
+
+		mockMvc.perform(get(url)).andExpect(status().isOk()).andExpect(content().json(expected));
 	}
 
 	@Test
