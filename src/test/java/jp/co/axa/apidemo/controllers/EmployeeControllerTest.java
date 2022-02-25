@@ -82,19 +82,7 @@ public class EmployeeControllerTest {
 
 	@Test
 	public void testGetEmployeeNotFound() throws Exception {
-		// 使われていないIDを探す
-		Long id = 1L;
-
-		do {
-			if (!id.equals(testEmployee1.getId()) && id.equals(testEmployee2.getId())
-					&& id.equals(testEmployee3.getId())) {
-				break;
-			}
-			id++;
-		} while (id <= 10);
-
-		// テスト
-		String url = "/api/v1/employees/" + id;
+		String url = "/api/v1/employees/" + Long.MAX_VALUE; // MAX_VALUEは使われていないはず
 
 		mockMvc.perform(get(url)).andExpect(status().isNotFound());
 	}
@@ -115,8 +103,11 @@ public class EmployeeControllerTest {
 	}
 
 	@Test
-	public void testSaveEmployee() {
-		fail("まだ実装されていません");
+	public void testSaveEmployee() throws Exception {
+		String url = "/api/v1/employees";
+
+		mockMvc.perform(post(url).param("name", "test4").param("department", "dep4").param("salary", "400"))
+				.andExpect(status().isOk());
 	}
 
 	@Test
