@@ -81,9 +81,28 @@ public class EmployeeControllerTest {
 	}
 
 	@Test
+	public void testGetEmployeeNotFound() throws Exception {
+		// 使われていないIDを探す
+		Long id = 1L;
+
+		do {
+			if (!id.equals(testEmployee1.getId()) && id.equals(testEmployee2.getId())
+					&& id.equals(testEmployee3.getId())) {
+				break;
+			}
+			id++;
+		} while (id <= 10);
+
+		// テスト
+		String url = "/api/v1/employees/" + id;
+
+		mockMvc.perform(get(url)).andExpect(status().isNotFound());
+	}
+
+	@Test
 	public void testGetEmployees() throws Exception {
 		String url = "/api/v1/employees";
-		
+
 		List<Employee> expectedList = new ArrayList<Employee>();
 		expectedList.add(testEmployee1);
 		expectedList.add(testEmployee2);
