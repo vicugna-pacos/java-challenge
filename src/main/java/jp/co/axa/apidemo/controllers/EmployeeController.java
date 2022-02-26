@@ -3,6 +3,8 @@ package jp.co.axa.apidemo.controllers;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,6 +26,8 @@ public class EmployeeController {
 
 	@Autowired
 	private EmployeeService employeeService;
+	
+	private Logger logger = LoggerFactory.getLogger(EmployeeController.class);
 
 	public void setEmployeeService(EmployeeService employeeService) {
 		this.employeeService = employeeService;
@@ -48,13 +52,13 @@ public class EmployeeController {
 	@PostMapping("/employees")
 	public void saveEmployee(Employee employee) {
 		employeeService.saveEmployee(employee);
-		System.out.println("Employee Saved Successfully");
+		logger.debug("Employee Saved Successfully");
 	}
 
 	@DeleteMapping("/employees/{employeeId}")
 	public void deleteEmployee(@PathVariable(name = "employeeId") Long employeeId) {
 		employeeService.deleteEmployee(employeeId);
-		System.out.println("Employee Deleted Successfully");
+		logger.debug("Employee Deleted Successfully");
 	}
 
 	@PutMapping("/employees/{employeeId}")
