@@ -3,6 +3,7 @@ package jp.co.axa.apidemo.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import jp.co.axa.apidemo.entities.Employee;
@@ -36,11 +37,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
-	public void deleteEmployee(Long employeeId) {
-		employeeRepository.deleteById(employeeId);
-	}
-
-	@Override
 	public Optional<Employee> updateEmployee(Long employeeId, Employee employee) {
 		Optional<Employee> target = employeeRepository.findById(employeeId);
 		Employee result = null;
@@ -53,6 +49,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 		}
 
 		return Optional.ofNullable(result);
+	}
+
+	@Override
+	public boolean deleteEmployee(Long employeeId) {
+		try {
+			employeeRepository.deleteById(employeeId);
+			
+		} catch (EmptyResultDataAccessException e) {
+			return false;
+		}
+		return true;
 	}
 
 	@Override

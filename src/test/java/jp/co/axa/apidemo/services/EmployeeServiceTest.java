@@ -86,11 +86,32 @@ public class EmployeeServiceTest {
 		employeeService.saveEmployee(employee1);
 		
 		// 削除
-		employeeService.deleteEmployee(employee1.getId());
-		
+		boolean result = employeeService.deleteEmployee(employee1.getId());
+
+		assertTrue(result);
+
 		Optional<Employee> employee = employeeService.getEmployee(employee1.getId());
 		
 		assertFalse("削除されていることを確認", employee.isPresent());
+	}
+
+	/**
+	 * 削除のテスト (削除対象なし)
+	 */
+	@Test
+	public void testDeleteEmployeeNotFound() {
+		// テストデータの登録
+		Employee employee1 = createTestEmployee1();
+		employeeService.saveEmployee(employee1);
+		
+		// 削除
+		boolean result = employeeService.deleteEmployee(Long.MAX_VALUE);
+
+		assertFalse(result);
+
+		Optional<Employee> employee = employeeService.getEmployee(employee1.getId());
+		
+		assertTrue("削除されていないことを確認", employee.isPresent());
 	}
 
 	/**

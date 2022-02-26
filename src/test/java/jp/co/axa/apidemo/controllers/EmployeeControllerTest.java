@@ -1,6 +1,5 @@
 package jp.co.axa.apidemo.controllers;
 
-import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -143,8 +142,16 @@ public class EmployeeControllerTest {
 	}
 
 	@Test
-	public void testDeleteEmployee() {
-		fail("まだ実装されていません");
+	public void testDeleteEmployee() throws Exception {
+		String url = "/api/v1/employees/" + testEmployee1.getId();
+
+		mockMvc.perform(delete(url)).andExpect(status().isOk());
 	}
 
+	@Test
+	public void testDeleteEmployeeNotFound() throws Exception {
+		String url = "/api/v1/employees/" + Long.MAX_VALUE;
+
+		mockMvc.perform(delete(url)).andExpect(status().isOk());
+	}
 }
