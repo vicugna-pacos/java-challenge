@@ -20,7 +20,7 @@ public class EmployeeServiceTest {
 
 	@Autowired
 	private EmployeeService employeeService;
-	
+
 	@Before
 	public void before() {
 		employeeService.deleteAllEmployees();
@@ -34,7 +34,7 @@ public class EmployeeServiceTest {
 		Employee newEmployee = createTestEmployee1();
 
 		employeeService.saveEmployee(newEmployee);
-		
+
 		assertNotNull(newEmployee.getId());
 	}
 
@@ -46,10 +46,10 @@ public class EmployeeServiceTest {
 		// テストデータ登録
 		Employee newEmployee = createTestEmployee1();
 		employeeService.saveEmployee(newEmployee);
-		
+
 		// 検索
 		Optional<Employee> employee = employeeService.getEmployee(newEmployee.getId());
-		
+
 		assertTrue("検索結果が取得できる", employee.isPresent());
 		assertNotSame("トランザクション外なのでインスタンスが別になるはず", newEmployee, employee.get());
 		assertEquals("登録した通りに検索できる", newEmployee, employee.get());
@@ -68,9 +68,9 @@ public class EmployeeServiceTest {
 		employeeService.saveEmployee(newEmployee2);
 
 		List<Employee> employees = employeeService.retrieveEmployees();
-		
+
 		assertEquals("件数のチェック", 2, employees.size());
-		
+
 		assertEquals("1件目", newEmployee1, employees.get(0));
 		assertEquals("2件目", newEmployee2, employees.get(1));
 
@@ -84,14 +84,14 @@ public class EmployeeServiceTest {
 		// テストデータの登録
 		Employee employee1 = createTestEmployee1();
 		employeeService.saveEmployee(employee1);
-		
+
 		// 削除
 		boolean result = employeeService.deleteEmployee(employee1.getId());
 
 		assertTrue(result);
 
 		Optional<Employee> employee = employeeService.getEmployee(employee1.getId());
-		
+
 		assertFalse("削除されていることを確認", employee.isPresent());
 	}
 
@@ -103,14 +103,14 @@ public class EmployeeServiceTest {
 		// テストデータの登録
 		Employee employee1 = createTestEmployee1();
 		employeeService.saveEmployee(employee1);
-		
+
 		// 削除
 		boolean result = employeeService.deleteEmployee(Long.MAX_VALUE);
 
 		assertFalse(result);
 
 		Optional<Employee> employee = employeeService.getEmployee(employee1.getId());
-		
+
 		assertTrue("削除されていないことを確認", employee.isPresent());
 	}
 
@@ -123,20 +123,42 @@ public class EmployeeServiceTest {
 		Employee employee1 = createTestEmployee1();
 		employeeService.saveEmployee(employee1);
 		Long targetId = employee1.getId();
-		
+
 		// 更新
 		employee1.setName("test3");
 		employee1.setDepartment("dep3");
 		employee1.setSalary(300);
-		
+
 		employeeService.updateEmployee(targetId, employee1);
-		
+
 		// 更新結果の取得
 		Optional<Employee> target = employeeService.getEmployee(targetId);
-		
+
 		assertTrue(target.isPresent());
 		assertEquals(employee1, target.get());
 	}
+
+//	/**
+//	 * キャッシュが有効かどうかのテスト
+//	 */
+//	@Test
+//	public void testGetEmployeeCache() {
+//		Employee employee1 = createTestEmployee1();
+//		employeeService.saveEmployee(employee1);
+//
+//		Employee employee2 = createTestEmployee2();
+//		employeeService.saveEmployee(employee2);
+//
+//		long startMs = System.currentTimeMillis();
+//		
+//		Optional<Employee> result1 = employeeService.getEmployee(employee1.getId());
+//		long ms1 = System.currentTimeMillis();
+//		System.out.println(ms1 - startMs);
+//		
+//		Optional<Employee> result2 = employeeService.getEmployee(employee1.getId());
+//		long ms2 = System.currentTimeMillis();
+//		System.out.println(ms2 - ms1);
+//	}
 
 	/**
 	 * テスト用Employeeの作成1

@@ -3,6 +3,7 @@ package jp.co.axa.apidemo.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +20,14 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	@Override
+	@Cacheable("employees")
 	public List<Employee> retrieveEmployees() {
 		List<Employee> employees = employeeRepository.findAllByOrderById();
 		return employees;
 	}
 
 	@Override
+	@Cacheable("employee")
 	public Optional<Employee> getEmployee(Long employeeId) {
 		return employeeRepository.findById(employeeId);
 	}
