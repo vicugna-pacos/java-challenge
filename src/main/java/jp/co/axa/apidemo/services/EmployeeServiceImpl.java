@@ -10,15 +10,27 @@ import org.springframework.stereotype.Service;
 import jp.co.axa.apidemo.entities.Employee;
 import jp.co.axa.apidemo.repositories.EmployeeRepository;
 
+/**
+ * {@link EmployeeService} の実装。データ取得部分のキャッシュを行う。
+ */
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
 	private EmployeeRepository employeeRepository;
 
+	/**
+	 * コンストラクタ
+	 * @param employeeRepository
+	 */
 	public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
 		this.employeeRepository = employeeRepository;
 	}
 
+	/**
+     * {@inheritDoc}
+	 * 
+	 * キャッシュを行う。
+	 */
 	@Override
 	@Cacheable("employees")
 	public List<Employee> retrieveEmployees() {
@@ -26,6 +38,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employees;
 	}
 
+    /**
+     * {@inheritDoc}
+     * 
+	 * キャッシュを行う。
+     */
 	@Override
 	@Cacheable("employee")
 	public Optional<Employee> getEmployee(Long employeeId) {
