@@ -59,11 +59,10 @@ public class EmployeeController {
 
 	@PutMapping("/employees/{employeeId}")
 	public void updateEmployee(@RequestBody Employee employee, @PathVariable(name = "employeeId") Long employeeId) {
-		Optional<Employee> emp = employeeService.getEmployee(employeeId);
-		if (emp.isPresent()) {
-			employeeService.updateEmployee(employee);
+		Optional<Employee> emp = employeeService.updateEmployee(employeeId, employee);
+		if (!emp.isPresent()) {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
-
 	}
 
 }

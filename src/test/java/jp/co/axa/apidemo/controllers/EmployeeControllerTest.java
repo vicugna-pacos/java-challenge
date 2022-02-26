@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -111,12 +112,38 @@ public class EmployeeControllerTest {
 	}
 
 	@Test
-	public void testDeleteEmployee() {
-		fail("まだ実装されていません");
+	public void testUpdateEmployee() throws Exception {
+		String url = "/api/v1/employees/" + testEmployee1.getId();
+
+		Employee newEmployee = new Employee();
+		newEmployee.setName("test4");
+		newEmployee.setDepartment("dep4");
+		newEmployee.setSalary(400);
+
+		ObjectMapper mapper = new ObjectMapper();
+		String requestBody = mapper.writeValueAsString(newEmployee);
+
+		mockMvc.perform(put(url).content(requestBody).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 	}
 
 	@Test
-	public void testUpdateEmployee() {
+	public void testUpdateEmployeeNotFound() throws Exception {
+		Long employeeId = Long.MAX_VALUE; // MAX_VALUEは使われていないはず
+		String url = "/api/v1/employees/" + employeeId;
+
+		Employee newEmployee = new Employee();
+		newEmployee.setName("test4");
+		newEmployee.setDepartment("dep4");
+		newEmployee.setSalary(400);
+
+		ObjectMapper mapper = new ObjectMapper();
+		String requestBody = mapper.writeValueAsString(newEmployee);
+
+		mockMvc.perform(put(url).content(requestBody).contentType(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
+	}
+
+	@Test
+	public void testDeleteEmployee() {
 		fail("まだ実装されていません");
 	}
 

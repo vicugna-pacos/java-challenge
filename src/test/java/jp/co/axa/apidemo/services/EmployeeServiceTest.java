@@ -108,7 +108,7 @@ public class EmployeeServiceTest {
 		employee1.setDepartment("dep3");
 		employee1.setSalary(300);
 		
-		employeeService.updateEmployee(employee1);
+		employeeService.updateEmployee(targetId, employee1);
 		
 		// 更新結果の取得
 		Optional<Employee> target = employeeService.getEmployee(targetId);

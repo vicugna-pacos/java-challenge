@@ -15,7 +15,14 @@ public interface EmployeeService {
 
     public void deleteEmployee(Long employeeId);
 
-    public void updateEmployee(Employee employee);
+    /**
+     * 更新
+     * 
+     * @param employeeId 更新対象のid
+     * @param employee id以外の更新値
+     * @return 更新対象がある場合、値あり。更新対象がない場合、null
+     */
+    public Optional<Employee> updateEmployee(Long employeeId, Employee employee);
     
     /**
      * すべての従業員を削除する
