@@ -76,7 +76,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 		try {
 			employeeRepository.deleteById(employeeId);
 			
-		} catch (EmptyResultDataAccessException e) {
+		} catch (EmptyResultDataAccessException ignored) {
 			return false;
 		}
 		return true;
