@@ -12,26 +12,33 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 従業員情報のEntity
+ */
 @Entity
 @Table(name="EMPLOYEE")
 public class Employee {
 
+	/** 従業員ID */
     @Getter
     @Setter
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
+    /** 名前 */
     @Getter
     @Setter
     @Column(name="EMPLOYEE_NAME")
     private String name;
 
+    /** 給料 */
     @Getter
     @Setter
     @Column(name="EMPLOYEE_SALARY")
     private Integer salary;
 
+    /** 部門 */
     @Getter
     @Setter
     @Column(name="DEPARTMENT")
