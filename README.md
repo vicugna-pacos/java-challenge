@@ -51,8 +51,27 @@ Please let us know more about your Java experience in a few sentences. For examp
 - I'm a beginner and just recently learned Spring Boot
 - I know Spring Boot very well and have been using it for many years
 
-##### My experience
+### Javaの開発経験
 
 - およそ10年間のJava開発経験あり。バージョンは 8。最後に業務でJavaを扱ったのは2018年。
 - Struts, Spring Boot の開発経験あり。Spring Boot の経験は1年弱。小規模のWebアプリケーションを構築した。
 - O/R マッパーは、MyBatis の開発経験あり。
+
+### やったこと
+
+- Service と Controller のテストを作成。
+- JavaDoc を追加。
+- キャッシュの追加。
+- Service と Controller の処理を整理。
+  - 検索や更新のメソッドで対象が見つからない場合は、Controller で 404 (Not Found) を返すようにそろえた。
+
+### やらなかったこと(時間があれば実施したこと)
+
+- Controller のパッケージをURLの階層と合わせる。
+  - 変更案：`apidemo.controllers.api.v1`
+  - 今回は小さいデモアプリなので、冗長と判断した。
+- キャッシュの指定を Repository ではなく Service に行った。Repository でキャッシュの指定をするには検索用メソッドを再定義する必要があり、コードが冗長になると判断したため。
+- キャッシュのカスタマイズ。有効期限やキャッシュを更新するタイミングの設定など。
+- Entity と ViewModel (画面項目定義) の分離。
+- リクエストパラメータのバリデーション。
+
