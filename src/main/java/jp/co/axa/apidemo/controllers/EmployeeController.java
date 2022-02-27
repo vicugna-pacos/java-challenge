@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +26,6 @@ import jp.co.axa.apidemo.services.EmployeeService;
 @RequestMapping("/api/v1")
 public class EmployeeController {
 
-	@Autowired
 	private EmployeeService employeeService;
 	
 	private Logger logger = LoggerFactory.getLogger(EmployeeController.class);
@@ -37,7 +35,7 @@ public class EmployeeController {
 	 * 
 	 * @param employeeService
 	 */
-	public void setEmployeeService(EmployeeService employeeService) {
+	public EmployeeController(EmployeeService employeeService) {
 		this.employeeService = employeeService;
 	}
 
@@ -62,10 +60,10 @@ public class EmployeeController {
 	public Employee getEmployee(@PathVariable(name = "employeeId") Long employeeId) {
 		Optional<Employee> employee = employeeService.getEmployee(employeeId);
 		if (employee.isPresent()) {
+			logger.debug("Employee Got Successfully");
 			return employee.get();
-		} else {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
+		throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 	}
 
 	/**
@@ -106,6 +104,7 @@ public class EmployeeController {
 		if (!emp.isPresent()) {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}
+		logger.debug("Employee Updated Successfully");
 	}
 
 }
