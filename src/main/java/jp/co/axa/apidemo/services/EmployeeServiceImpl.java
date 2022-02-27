@@ -20,6 +20,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
 	/**
 	 * コンストラクタ
+	 * 
 	 * @param employeeRepository
 	 */
 	public EmployeeServiceImpl(EmployeeRepository employeeRepository) {
@@ -27,7 +28,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 
 	/**
-     * {@inheritDoc}
+	 * {@inheritDoc}
 	 * 
 	 * キャッシュを行う。
 	 */
@@ -38,11 +39,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 		return employees;
 	}
 
-    /**
-     * {@inheritDoc}
-     * 
+	/**
+	 * {@inheritDoc}
+	 * 
 	 * キャッシュを行う。
-     */
+	 */
 	@Override
 	@Cacheable("employee")
 	public Optional<Employee> getEmployee(Long employeeId) {
@@ -59,14 +60,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	@Override
 	public Optional<Employee> updateEmployee(Long employeeId, Employee employee) {
 		Optional<Employee> target = employeeRepository.findById(employeeId);
-		Employee result = null;
 
-		if (target.isPresent()) {
-			employee.setId(employeeId);
-			result = employeeRepository.save(employee);
-		} else {
-			result = null;
+		if (!target.isPresent()) {
+			return Optional.empty();
 		}
+		employee.setId(employeeId);
+		Employee result = employeeRepository.save(employee);
 
 		return Optional.ofNullable(result);
 	}
@@ -75,7 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public boolean deleteEmployee(Long employeeId) {
 		try {
 			employeeRepository.deleteById(employeeId);
-			
+
 		} catch (EmptyResultDataAccessException ignored) {
 			return false;
 		}
